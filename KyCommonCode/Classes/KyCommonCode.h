@@ -46,6 +46,9 @@ typedef NS_ENUM(NSInteger, CloseBtnStyle){
 -(void)KyCommonCode:(KyCommonCode *)kyCommonCode clickedCloseButton:(UIButton *)closeBtn;
 //点击分享按钮代理方法
 -(void)KyCommonCode:(KyCommonCode *)kyCommonCode isFullscreen:(BOOL)isFullscreen onClickShareBtn:(UIButton *)shareBtn;
+//点击投屏按钮
+-(void)KyCommonCode:(KyCommonCode *)kyCommonCode isFullscreen:(BOOL)isFullscreen onClickScreenButton:(UIButton *)screenButton;
+
 //点击字幕按钮
 -(void)KyCommonCode:(KyCommonCode *)kyCommonCode isFullscreen:(BOOL)isFullscreen onClickSubtitleBtn:(UIButton *)subtitleBtn;
 //去除广告
@@ -166,6 +169,10 @@ typedef NS_ENUM(NSInteger, CloseBtnStyle){
 @property (nonatomic,retain ) UIButton      *collectionBtn;
 //字幕
 @property (nonatomic,retain ) UIButton      *subtitleBtn;
+
+//投屏
+@property (nonatomic,retain ) UIButton      *screenButton;
+
 
 /**
  *  显示加载失败的UILabel

@@ -244,6 +244,13 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     [_collectionBtn setImage:[UIImage imageNamed:@"KyCommonCode.bundle/video_collection_show" inBundle:MYBUNDLE compatibleWithTraitCollection:nil] forState:UIControlStateSelected];
     [_collectionBtn addTarget:self action:@selector(onCollectionClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:_collectionBtn];
+    
+    //投屏
+    _screenButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _screenButton.showsTouchWhenHighlighted = YES;
+    [_screenButton setImage:[UIImage imageNamed:@"KyCommonCode.bundle/iconscreen" inBundle:MYBUNDLE compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+    [_screenButton addTarget:self action:@selector(onClickScreeneButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:_screenButton];
 
     //标题
     self.titleLabel = [[UILabel alloc]init];
@@ -435,6 +442,13 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     
     [self.shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.subtitleBtn.mas_left).with.offset(-8);
+        make.height.mas_equalTo(30);
+        make.centerY.equalTo(self.topView);
+        make.width.mas_equalTo(30);
+    }];
+    
+    [self.screenButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.shareBtn.mas_left).with.offset(-8);
         make.height.mas_equalTo(30);
         make.centerY.equalTo(self.topView);
         make.width.mas_equalTo(30);
@@ -1034,6 +1048,12 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
 -(void)onCollectionClick:(UIButton *)sender{
     if (self.delegate && [self.delegate respondsToSelector:@selector(KyCommonCode:isFullscreen:onClickCollectionBtn:)]) {
       [self.delegate KyCommonCode:self isFullscreen:self.isFullscreen onClickCollectionBtn:sender];
+    }
+}
+
+-(void)onClickScreeneButton:(UIButton *)sender{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(KyCommonCode:isFullscreen:onClickScreenButton:)]) {
+      [self.delegate KyCommonCode:self isFullscreen:self.isFullscreen onClickScreenButton:sender];
     }
 }
 
