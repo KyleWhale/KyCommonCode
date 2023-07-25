@@ -668,7 +668,6 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     self.currentItem = [self getPlayItemWithURLString:URLString];
 
     self.player = [AVPlayer playerWithPlayerItem:_currentItem];
-    self.player.usesExternalPlaybackWhileExternalScreenIsActive=YES;
     //AVPlayerLayer
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
     self.playerLayer.frame = self.layer.bounds;
