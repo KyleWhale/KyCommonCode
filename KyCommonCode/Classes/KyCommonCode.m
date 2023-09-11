@@ -274,7 +274,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     
     _adBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _adBtn.showsTouchWhenHighlighted = YES;
-    [_adBtn setTitle:@"AD" forState:UIControlStateNormal];
+    [_adBtn setImage:[UIImage imageNamed:@"KyCommonCode.bundle/ic_adicon" inBundle:MYBUNDLE compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
     [_adBtn addTarget:self action:@selector(adClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.showView addSubview:_adBtn];
     
