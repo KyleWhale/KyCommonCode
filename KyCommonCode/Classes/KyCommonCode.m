@@ -274,10 +274,16 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     
     _adBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _adBtn.showsTouchWhenHighlighted = YES;
-    [_adBtn setImage:[UIImage imageNamed:@"KyCommonCode.bundle/ic_adicon" inBundle:MYBUNDLE compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+    [_adBtn setImage:[UIImage imageNamed:@"KyCommonCode.bundle/ad" inBundle:MYBUNDLE compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
     [_adBtn addTarget:self action:@selector(adClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.showView addSubview:_adBtn];
     
+    _porAdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _porAdBtn.showsTouchWhenHighlighted = YES;
+    [_porAdBtn setImage:[UIImage imageNamed:@"KyCommonCode.bundle/ad" inBundle:MYBUNDLE compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+    [_porAdBtn addTarget:self action:@selector(adClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_porAdBtn];
+
     _showPlayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _showPlayBtn.showsTouchWhenHighlighted = YES;
     [_showPlayBtn setImage:[UIImage imageNamed:@"KyCommonCode.bundle/video_show_plause" inBundle:MYBUNDLE compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
@@ -478,6 +484,12 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
         make.height.width.mas_offset(30);
     }];
     
+    [self.porAdBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(0);
+        make.centerY.mas_equalTo(0);
+        make.height.width.mas_equalTo(40);
+    }];
+    
     [self.showPlayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.showView);
         make.height.width.mas_offset(44);
@@ -668,6 +680,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     self.currentItem = [self getPlayItemWithURLString:URLString];
 
     self.player = [AVPlayer playerWithPlayerItem:_currentItem];
+    self.player.usesExternalPlaybackWhileExternalScreenIsActive=NO;
     //AVPlayerLayer
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
     self.playerLayer.frame = self.layer.bounds;
@@ -899,6 +912,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
         self.topView.alpha = 0.0;
         self.showView.alpha = 0.0;
         self.nextBtn.hidden = NO;
+        self.porAdBtn.alpha = 0.0;
         self.titleLabel.hidden = NO;
         [self.fullScreenBtn setImage:[UIImage imageNamed:@"KyCommonCode.bundle/"] forState:UIControlStateNormal];
         self.fullScreenBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
@@ -963,6 +977,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
             make.centerY.equalTo(self.ppBtn);
         }];
     } else {
+        self.porAdBtn.alpha = self.topView.alpha;
         self.showView.alpha = 0.0;
         [self.fullScreenBtn setImage:[UIImage imageNamed:@"KyCommonCode.bundle/video_play_full" inBundle:MYBUNDLE compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         [self.fullScreenBtn setTitle:@"" forState:UIControlStateNormal];
@@ -1078,38 +1093,33 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
             self.topView.alpha = 1.0;
             if (self.isFullscreen) {
                 self.showView.alpha = 1.0;
+            } else {
+                self.porAdBtn.alpha = 1.0;
             }
-        }else{
+        } else {
             self.bottomView.alpha = 0.0;
             self.closeBtn.alpha = 0.0;
             self.topView.alpha = 0.0;
             self.showView.alpha = 0.0;
+            self.porAdBtn.alpha = 0.0;
         }
-    } completion:^(BOOL finish){
-
     }];
 }
 
 /**
  * 隐藏 底部视图
  **/
--(void)autoDismissBottomView:(NSTimer *)timer{
+- (void)autoDismissBottomView:(NSTimer *)timer {
 
-//    if (self.player.rate==.0f&&self.currentTime != self.duration) {//暂停状态
-//
-//    }else if(self.player.rate==1.0f){
-        if (self.bottomView.alpha==1.0) {
-            [UIView animateWithDuration:0.5 animations:^{
-                self.bottomView.alpha = 0.0;
-                self.closeBtn.alpha = 0.0;
-                self.topView.alpha = 0.0;
-                self.showView.alpha = 0.0;
-
-            } completion:^(BOOL finish){
-
-            }];
-        }
-//    }
+    if (self.bottomView.alpha == 1.0) {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.bottomView.alpha = 0.0;
+            self.closeBtn.alpha = 0.0;
+            self.topView.alpha = 0.0;
+            self.showView.alpha = 0.0;
+            self.porAdBtn.alpha = 0.0;
+        }];
+    }
 }
 #pragma mark - 双击播放器 手势方法
 - (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTap{
@@ -1133,9 +1143,9 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
         self.closeBtn.alpha = 1.0;
         if (self.isFullscreen) {
             self.showView.alpha = 1.0;
+        } else {
+            self.porAdBtn.alpha = 1.0;
         }
-    } completion:^(BOOL finish){
-
     }];
 }
 
@@ -1157,8 +1167,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     [UIView animateWithDuration:0.5 animations:^{
         self.bottomView.alpha = 1.0;
         self.topView.alpha = 1.0;
-    } completion:^(BOOL finish){
-        
+        self.porAdBtn.alpha = 1.0;
     }];
 }
 

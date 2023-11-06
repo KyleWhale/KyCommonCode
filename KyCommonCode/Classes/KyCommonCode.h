@@ -108,6 +108,7 @@ typedef NS_ENUM(NSInteger, CloseBtnStyle){
 @property (nonatomic,retain ) UIView         *showView;
 @property (nonatomic,retain ) UIButton       *lockBtn;
 @property (nonatomic,retain ) UIButton       *adBtn;
+@property (nonatomic,retain ) UIButton       *porAdBtn;
 @property (nonatomic,retain ) UIButton       *showPlayBtn;
 @property (nonatomic,retain ) UIButton       *advanceBtn;
 @property (nonatomic,retain ) UIButton       *retreatBtn;
